@@ -1,0 +1,1 @@
+// Route wrapper around SearchResults.

@@ -1,0 +1,41 @@
+# Virtual environments
+env/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Dataset — 500MB+, download separately, never commit
+recsys/data/raw/
+recsys/data/interim/
+recsys/data/processed/
+recsys/data/external/
+
+# Trained models — reproducible from the training pipeline
+recsys/artifacts/
+
+# Keep the folder structure
+!**/.gitkeep
+
+# Secrets and local config
+.env
+.env.local
+
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.loa
+
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
