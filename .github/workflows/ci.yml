@@ -1,18 +1,43 @@
 name: ci
+
 on: [push, pull_request]
+
 jobs:
-  backend:
+  # Tests the recommendation package: metric correctness, fusion behaviour and
+  # leakage prevention in the splitters. These run without the dataset, which
+  # is deliberate - a test that needs a 500MB download is a test nobody runs.
+  recsys:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - run: pip install -r backend/requirements.txt
-      - run: cd backend && pytest -q
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install package
+        working-directory: recsys
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pytest
+
+      - name: Run tests
+        working-directory: recsys
+        run: pytest tests/ -v
+
   frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - run: cd frontend && npm ci && npm run build
+        with:
+          node-version: '20'
+
+      - name: Install and build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
